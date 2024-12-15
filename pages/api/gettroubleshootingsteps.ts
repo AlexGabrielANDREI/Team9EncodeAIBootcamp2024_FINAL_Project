@@ -77,18 +77,22 @@ export default async function handler(
 
     // Define the prompt to generate the initial troubleshooting step
     const prompt = `
-      You are an expert technician assistant. Based on the following issue described by the user:
-      "${issue}"
-      And using the maintenance manual provided, generate the first troubleshooting step.
-      The response should be a JSON object with the following keys:
-      - "instruction": Detailed step instruction.
-      - "manualReference": Section and page number in the manual.
-      - "humanResources": Required technician level.
-      - "materials": Any materials needed.
-      - "tools": Tools required.
-      - "followUpQuestion": A question to ask the user after performing the step.
-      Ensure the JSON is properly formatted.
-    `;
+  You are an expert technician assistant. Based on the following issue described by the user:
+  "${issue}"
+  And using the maintenance manual provided, generate the first troubleshooting step.
+
+  You must respond with ONLY a JSON object, with no additional text or explanation, using the following format:
+  {
+    "instruction": "Detailed step instruction",
+    "manualReference": "Section and page number in the manual",
+    "humanResources": "Required technician level",
+    "materials": "Any materials needed",
+    "tools": "Tools required",
+    "followUpQuestion": "A question to ask the user after performing the step"
+  }
+
+  Your response must be a valid JSON object that can be parsed with JSON.parse().
+`;
 
     const result = await queryEngine.query(prompt);
 
