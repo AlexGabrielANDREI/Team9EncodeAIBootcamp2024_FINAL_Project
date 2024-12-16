@@ -14,6 +14,7 @@ interface Step {
   tools: string;
   followUpQuestion: string;
   feedback?: string;
+  imageUrl?: string;
 }
 
 export default function Home() {
@@ -199,6 +200,9 @@ export default function Home() {
                   </strong>{" "}
                   <span className="text-white-800">{step.instruction}</span>
                 </p>
+                {step.imageUrl && ( // Render the image if it exists
+                  <img src={step.imageUrl} alt={`Step ${index + 1} Image`} className="my-4" />
+                )}
                 <p>
                   <strong className="text-blue-600">Manual Reference:</strong>{" "}
                   {step.manualReference}
