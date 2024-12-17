@@ -1,174 +1,125 @@
-Character Extraction with LlamaIndex
-Overview
-This project is a web application that allows users to upload a .txt file (such as a book or any text with characters and settings) and extract character information using a Retrieval-Augmented Generation (RAG) pipeline with LlamaIndex.
+# AI-Powered Troubleshooting Assistant
 
-The application:
+Welcome to the **AI-Powered Troubleshooting Assistant**! This application helps technicians troubleshoot issues efficiently based on a synthetic maintenance manual. It leverages the power of AI, allowing users to provide issues either through **text** or **image uploads**, and guides users step-by-step with interactive troubleshooting instructions.
 
-Splits the uploaded text into chunks and builds a vector index.
-Extracts characters from the text using a predefined prompt.
-Displays the extracted characters with their names, descriptions, and personalities in JSON format and in a table.
-Features
-File Upload: Upload a .txt file containing the text from which you want to extract characters.
-Customizable Settings: Adjust parameters such as chunk size, chunk overlap, top K results, temperature, and top P for the model.
-Index Building: Build an index of the text chunks with embeddings for efficient retrieval.
-Character Extraction: Extract character information using a RAG pipeline and display results.
-Results Display: View the extracted character data in both JSON format and a formatted table.
-Technologies Used
-Next.js: A React framework for server-side rendering and building web applications.
-TypeScript: Provides type safety for JavaScript code.
-LlamaIndex: An interface between your data and large language models (LLMs), enabling efficient retrieval and interaction.
-OpenAI API: Utilizes GPT-4 for processing and generating responses.
-Prerequisites
-Node.js: Ensure you have Node.js installed (version 14 or higher recommended).
-OpenAI API Key: You'll need an OpenAI API key to use GPT-4.
-Getting Started
-Installation
-Clone the Repository
+---
 
-bash
-Copy code
-git clone https://github.com/yourusername/character-extraction-llamaindex.git
-Navigate to the Project Directory
+## 🛠 **Key Features**
 
-bash
-Copy code
-cd character-extraction-llamaindex
-Install Dependencies
+### 🔹 **Issue Input Options**
 
-bash
-Copy code
+- **Text-Based Input**: Describe the issue using plain text.
+- **Image-Based Input**: Upload an image, and the AI analyzes the visual content to identify and describe the issue.
+
+### 🔹 **AI-Powered Troubleshooting**
+
+- The application utilizes **Retrieval-Augmented Generation (RAG)** to generate troubleshooting steps based on a maintenance manual.
+- Dynamic steps are generated based on user feedback, creating a **decision tree** that adapts to the user's responses.
+
+### 🔹 **Step-Specific Images**
+
+- For each troubleshooting step, the AI generates **customized images** to visually assist the user with the repair process.
+- Images are generated using **OpenAI's DALL·E** model.
+
+### 🔹 **Interactive and User-Friendly**
+
+- A clean UI to upload files, describe issues, and interact with the AI assistant.
+- Progress is tracked through a **multi-step process**:
+  1. **Upload Maintenance Manual**
+  2. **Describe the Issue**
+  3. **Troubleshoot with AI Guidance**
+
+---
+
+## 🚀 **Getting Started**
+
+### 1. **Clone the Repository**
+
+```bash
+https://github.com/AlexGabrielANDREI/Team9EncodeAIBootcamp2024_FINAL_Project.git
+```
+
+### 2. **Install Dependencies**
+
+Navigate to the project folder and install the required dependencies:
+
+```bash
 npm install
-Configuration
-Set Up Environment Variables
+```
 
-Create a .env.local file in the root of your project and add your OpenAI API key:
+### 3. **Set Up Environment Variables**
 
-env
-Copy code
-OPENAI_API_KEY=your-openai-api-key
-Running the Application
-Start the development server:
+Create a `.env` file in the root directory and add the following:
 
-bash
-Copy code
+```bash
+OPENAI_API_KEY=your_openai_api_key
+```
+
+Ensure you replace `your_openai_api_key` with your OpenAI API key.
+
+### 4. **Run the Development Server**
+
+```bash
 npm run dev
-Open your browser and navigate to http://localhost:3000 to view the application.
+```
 
-Usage
-Upload a .txt File
+Open [http://localhost:3000](http://localhost:3000) to view the app in your browser.
 
-Click on the file input field to upload a .txt file containing the text from which you want to extract characters.
-The contents of the file will be displayed in a read-only text area.
-Adjust Settings (Optional)
+---
 
-Chunk Size: Adjust the maximum size of the text chunks (in tokens).
-Chunk Overlap: Adjust the overlap between chunks (in tokens).
-Top K: Set the number of top chunks to retrieve.
-Temperature: Control the creativity of the model's responses.
-Top P: Control the probability mass of tokens to consider.
-Build Index
+## 📂 **Project Structure**
 
-Click the "Build Index" button to process the text and build a vector index.
-A message will indicate when the index is built.
-Extract Characters
+```plaintext
+├── assets/                  # Contains demo images and synthetic maintenance manual
+├── pages/
+│   ├── api/
+│   │   ├── analyzeimage.ts           # Handles image analysis to detect issues
+│   │   ├── gettroubleshootingsteps.ts # Generates first troubleshooting step
+│   │   ├── getnextstep.ts            # Generates subsequent steps based on feedback
+│   │   ├── imageGenerator.ts         # Generates step-specific images
+│   └── index.tsx                     # Main UI for the application
+├── components/ui/          # Reusable UI components (Button, Input, etc.)
+├── public/                 # Static files
+└── README.md               # Project documentation
+```
 
-After the index is built, click the "Extract Characters" button.
-The application will extract character information from the text.
-Messages will inform you of the progress.
-View Results
+---
 
-The extracted character data will be displayed in JSON format.
-Below the JSON output, a table presents the characters with their names, descriptions, and personalities.
-Project Structure
-pages/
+## 🧩 **How It Works**
 
-index.tsx: The main page component containing the UI and logic for the application.
-api/
-splitandembed.ts: API endpoint for splitting the uploaded text and generating embeddings.
-extractcharacters.ts: API endpoint for extracting characters from the text using the built index.
-components/ui/: Custom UI components such as Button, Input, Label, LinkedSlider, and Textarea.
+1. **Upload Maintenance Manual**
 
-lib/: Contains any utility functions or sample data.
+   - The user uploads a `.txt` manual. The AI processes and indexes the content for troubleshooting.
 
-API Endpoints
-POST /api/splitandembed
-Description: Processes the uploaded text by splitting it into chunks and generating embeddings.
+2. **Describe the Issue**
 
-Request Body:
+   - **Option 1**: Provide a text description of the issue.
+   - **Option 2**: Upload an image of the issue. The AI analyzes the image and converts it into a text description.
 
-json
-Copy code
-{
-"document": "The text content...",
-"chunkSize": 1024,
-"chunkOverlap": 20
-}
-Response:
+3. **Troubleshooting Steps**
 
-json
-Copy code
-{
-"payload": {
-"nodesWithEmbedding": [
-{
-"text": "Chunk of text...",
-"embedding": [0.123, 0.456, ...]
-},
-...
-]
-}
-}
-POST /api/extractcharacters
-Description: Extracts character information from the text using the built index.
+   - The AI uses the indexed manual to generate troubleshooting steps tailored to the issue.
+   - After each step, the user can provide **feedback**, which the AI uses to decide the next appropriate step.
+   - The application dynamically creates a **decision tree** to guide the user toward solving the issue.
 
-Request Body:
+4. **Step-Specific Image Generation**
+   - For every troubleshooting step, the AI generates a unique image to assist with repairs visually.
 
-json
-Copy code
-{
-"nodesWithEmbedding": [...],
-"topK": 2,
-"temperature": 0.1,
-"topP": 1
-}
-Response:
+---
 
-json
-Copy code
-{
-"payload": {
-"characters": [
-{
-"name": "Character Name",
-"description": "Brief description.",
-"personality": "Personality traits."
-},
-...
-]
-}
-}
-Customization
-Model Settings: Adjust the temperature and topP parameters to control the model's response behavior.
+## 📜 **Technologies Used**
 
-Chunking Parameters: Modify chunkSize and chunkOverlap to change how the text is divided, which can impact the quality of the extraction.
+- **Next.js** - Framework for React.
+- **OpenAI GPT-4o** - AI model for generating troubleshooting steps and analyzing issues.
+- **OpenAI DALL·E** - AI model for generating step-specific images.
+- **LlamaIndex** - For RAG-based querying of the manual.
+- **TypeScript** - Static typing for better developer experience.
 
-Prompt Modification: The prompt used for character extraction is defined in extractcharacters.ts. You can modify it to suit your needs.
+---
 
-Troubleshooting
-Invalid API Key: Ensure your OpenAI API key is correctly set in the .env.local file.
+## ⚠️ **Limitations**
 
-Model Access: Verify that your API key has access to GPT-4.
+- The AI performance relies heavily on the quality of the uploaded manual and the clarity of user input.
+- Ensure images uploaded are clear and relevant for better analysis.
 
-CORS Issues: If you encounter CORS errors, ensure your API routes are correctly configured and you're not making cross-origin requests unnecessarily.
-
-JSON Parsing Errors: If the AI response cannot be parsed into JSON, consider adjusting the prompt or the model parameters to encourage the model to output valid JSON.
-
-Dependencies
-llamaindex
-next
-react
-openai
-Ensure all dependencies are installed by running npm install.
-
-Contributing
-Contributions are welcome! Feel free to open issues or submit pull requests for improvements or bug fixes.
+---
