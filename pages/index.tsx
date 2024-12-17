@@ -14,6 +14,7 @@ interface Step {
   tools: string;
   followUpQuestion: string;
   feedback?: string;
+  imageUrl?: string;
 }
 
 export default function Home() {
@@ -322,6 +323,9 @@ export default function Home() {
                   </strong>{" "}
                   <span className="text-white-800">{step.instruction}</span>
                 </p>
+                {step.imageUrl && ( // Render the image if it exists
+                  <img src={step.imageUrl} alt={`Step ${index + 1} Image`} className="my-4" />
+                )}
                 <p>
                   <strong className="text-blue-600">Manual Reference:</strong>{" "}
                   {step.manualReference}
@@ -384,31 +388,31 @@ export default function Home() {
 
                         const data = await response.json();
 
+                        // Check for errors in the response
                         if (data.error) {
                           console.error(data.error);
                           setMessage(data.error);
                         } else {
                           // Include the feedback in the previous step
                           const updatedConversation = [...conversation];
-                          updatedConversation[updatedConversation.length - 1] =
-                            {
-                              ...updatedConversation[
-                                updatedConversation.length - 1
-                              ],
-                              feedback: userInput,
-                            };
+                          updatedConversation[updatedConversation.length - 1] = {
+                            ...updatedConversation[updatedConversation.length - 1],
+                            feedback: userInput,
+                            imageUrl: data.payload.step.imageUrl, // Include the generated image URL
+                          };
 
-                          // Add the new step
+                          // Add the new step to the conversation
                           updatedConversation.push(data.payload.step);
 
+                          // Update the state with the new conversation
                           setConversation(updatedConversation);
-                          setUserInput("");
-                          setMessage("");
+                          setUserInput(""); // Clear the user input
+                          setMessage(""); // Clear any previous messages
                         }
 
-                        setLoading(false);
+                        setLoading(false); // Reset loading state
                       }}
-                      disabled={loading || !userInput}
+                      disabled={loading || !userInput} // Disable button if loading or no input
                     >
                       {loading ? "Processing..." : "Submit Feedback"}
                     </Button>

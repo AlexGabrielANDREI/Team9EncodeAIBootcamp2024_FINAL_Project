@@ -7,6 +7,7 @@ import {
   serviceContextFromDefaults,
 } from "llamaindex";
 import type { NextApiRequest, NextApiResponse } from "next";
+import { generateImageBasedOnStep } from "./imageGenerator"; // Import the image generation function
 
 type Step = {
   instruction: string;
@@ -15,7 +16,8 @@ type Step = {
   materials: string;
   tools: string;
   followUpQuestion: string;
-  feedback?: string; // Added feedback property
+  feedback?: string; 
+  imageUrl?: string;// Added feedback property
 };
 
 type Input = {
@@ -124,6 +126,15 @@ Ensure the JSON is properly formatted.
           "Failed to parse AI response into JSON. Please ensure the AI response is in correct JSON format.",
       });
       return;
+    }
+
+     // Generate image based on 'step' object (your custom logic for image generation)
+     if (step && typeof step.instruction === 'string') {
+      const image = await generateImageBasedOnStep(step.instruction);
+      console.log("Image to be generated:", image);
+      step.imageUrl = image; // Add the generated image URL to the step object
+    } else {
+      console.error('Invalid step object or instruction is not a string');
     }
 
     res.status(200).json({ payload: { step } });
